@@ -1,0 +1,19 @@
+{
+    "name": "sitestein/statamic-font-awesome",
+    "autoload": {
+        "psr-4": {
+            "Sitestein\\FontAwesome\\": "src"
+        }
+    },
+    "extra": {
+        "statamic": {
+            "name": "Statamic Font Awesome",
+            "description": "Font Awesome addon"
+        },
+        "laravel": {
+            "providers": [
+                "Sitestein\\FontAwesome\\ServiceProvider"
+            ]
+        }
+    }
+}
