@@ -3,7 +3,6 @@
 namespace Sitestein\FontAwesome;
 
 use Sitestein\FontAwesome\FieldTypes\FontAwesome as FontAwesomeFieldType;
-use Facades\Sitestein\FontAwesome\FontAwesome;
 use Statamic\Providers\AddonServiceProvider;
 use Sitestein\FontAwesome\Tags\FontAwesomeTags;
 

@@ -15,8 +15,8 @@ class FontAwesome
 
     public function __construct()
     {
-        $this->apiToken = config('font-awesome.api_token');
-        $this->kitToken = config('font-awesome.kit_token');
+        $this->apiToken = config('statamic-font-awesome.api_token', config('font-awesome.api_token')); // temp rename to statamic-font-awesome
+        $this->kitToken = config('statamic-font-awesome.kit_token', config('font-awesome.kit_token'));
     }
 
     public function kit(string $token = null): Collection
