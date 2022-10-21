@@ -5,6 +5,7 @@ namespace Sitestein\FontAwesome;
 use Sitestein\FontAwesome\FieldTypes\FontAwesome as FontAwesomeFieldType;
 use Statamic\Providers\AddonServiceProvider;
 use Sitestein\FontAwesome\Tags\FontAwesomeTags;
+use Facades\Sitestein\FontAwesome\FontAwesome;
 
 class ServiceProvider extends AddonServiceProvider
 {
