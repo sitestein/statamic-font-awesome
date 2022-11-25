@@ -14,7 +14,7 @@
                 ref="input"
                 class="flex-1"
                 :name="name"
-                :clearable="config.clearable"
+                :clearable="true"
                 :disabled="config.disabled || isReadOnly || (config.multiple && limitReached)"
                 :placeholder="__('Search icons')"
                 :searchable="config.searchable || config.taggable"
@@ -60,6 +60,7 @@
 
             <v-select
                 class="flex-1 mt-1"
+                :clearable="false"
                 :disabled="config.disabled || isReadOnly || (config.multiple && limitReached)"
                 :placeholder="__('Select style')"
                 :searchable="false"
@@ -107,30 +108,28 @@ export default {
     },
 
     watch: {
-        // whenever question changes, this function will run
         value(newValue, oldValue) {
             this.renderKey++;
         }
     },
 
-    mounted() {
-        // fetch options of mounted value using search api
-        let val = this.value.split(" ");
+    created() {
+        this.initSelectedIcon();
 
-        this.selectedStyle = val[0].replace("fa-", "");
+        Statamic.$hooks.on('entry.saved', (resolve, reject) => {
+            this.initSelectedIcon();
 
-        this.$axios.get(cp_url(`font-awesome/search/${val[1].replace("fa-", "")}`)).then(response => {
-            if (response.data[0] !== undefined ) {
-                this.vueSelectUpdated(response.data[0]);
-            }
-        }).catch(error => {
-            console.log(error);
+            resolve();
         });
     },
 
     computed: {
         replicatorPreview() {
-            return this.value.label;
+            if (this.value) {
+                return `<i class="${this.value.value ? this.value.value : this.value} align-middle" style="width: 18px; height: 18px;"></i>`;
+            }
+
+            return '';
         },
 
         resetOnOptionsChange() {
@@ -177,6 +176,25 @@ export default {
     },
 
     methods: {
+        initSelectedIcon() {
+            // fetch options of mounted value using search api
+            let value = this.value.split(" ");
+            let style = value[0].replace("fa-", "");
+            let icon = value[1].replace("fa-", "");
+
+            this.selectedStyle = style;
+
+            this.$axios.get(cp_url(`font-awesome/search/${icon}`)).then(response => {
+                let found = response.data.find(element => element.value === icon);
+
+                if (found) {
+                    this.vueSelectUpdated(found);
+                }
+            }).catch(error => {
+                console.log(error);
+            });
+        },
+
         fetchOptions: _.debounce(function (search, loading) {
             if (search.length > 0) {
                 loading(true);
@@ -189,7 +207,7 @@ export default {
                     loading(false);
                 });
             }
-        }, 500),
+        }, 700),
 
         focus() {
             this.$refs.input.focus();
