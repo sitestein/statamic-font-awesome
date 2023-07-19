@@ -1,6 +1,5 @@
 <template>
     <div class="flex flex-row">
-
         <div v-if="value" style="min-width: 45px">
             <span class="mr-2">
                 <span :key="renderKey">
@@ -13,14 +12,15 @@
             <v-select
                 ref="input"
                 class="flex-1"
+                append-to-body
                 :name="name"
                 :clearable="true"
                 :disabled="config.disabled || isReadOnly || (config.multiple && limitReached)"
                 :placeholder="__('Search icons')"
                 :searchable="config.searchable || config.taggable"
-                :taggable="config.taggable"
-                :push-tags="config.push_tags"
-                :multiple="config.multiple"
+                :taggable="false"
+                :push-tags="false"
+                :multiple="false"
                 :close-on-select="true"
                 :value="value"
                 :options="options"
@@ -60,6 +60,7 @@
 
             <v-select
                 class="flex-1 mt-1"
+                append-to-body
                 :clearable="false"
                 :disabled="config.disabled || isReadOnly || (config.multiple && limitReached)"
                 :placeholder="__('Select style')"
